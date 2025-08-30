@@ -1,0 +1,28 @@
+@startuml
+title SC2002 Lab 1 – Program Logic Overview
+
+package "lab1" {
+    class P1 {
+        +main(String[] args)
+        - switch-case genre selection
+    }
+
+    class P2 {
+        +main(String[] args)
+        - salary + merit classification
+        - nested if-else logic
+    }
+
+    class P3 {
+        +main(String[] args)
+        - currency conversion
+        - for / while / do-while loop logic
+    }
+
+    class P4 {
+        +main(String[] args)
+        - pattern generation
+        - nested loop pattern
+    }
+}
+@enduml
