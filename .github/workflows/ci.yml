@@ -1,1 +1,30 @@
+name: Java CI for SC2002 Lab1
 
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up Java
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+
+    - name: Compile source and test files
+      run: |
+        mkdir bin
+        javac -d bin -cp "lib/*" lab1/P2.java tests/P2Test.java
+
+    - name: Run tests
+      run: |
+        java -jar lib/junit-platform-console-standalone-1.9.3.jar -cp bin --scan-class-path
