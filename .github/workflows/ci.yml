@@ -2,16 +2,16 @@ name: Java CI for SC2002 Lab1
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ main ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ main ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
+    - name: Checkout repo
       uses: actions/checkout@v3
 
     - name: Set up Java
@@ -20,11 +20,18 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
-    - name: Compile source and test files
+    - name: Download JUnit 5 Console Standalone
       run: |
-        mkdir bin
-        javac -d bin -cp "lib/*" lab1/P2.java tests/P2Test.java
+        curl -LO https://repo1.maven.org/maven2/org/junit/platform/junit-platform-console-standalone/1.10.2/junit-platform-console-standalone-1.10.2.jar
 
-    - name: Run tests
+    - name: Compile source files
       run: |
-        java -jar lib/junit-platform-console-standalone-1.9.3.jar -cp bin --scan-class-path
+        mkdir out
+        javac -d out -cp junit-platform-console-standalone-1.10.2.jar lab1/*.java tests/*.java
+
+    - name: Run JUnit tests
+      run: |
+        java -jar junit-platform-console-standalone-1.10.2.jar \
+          --class-path out \
+          --scan-class-path \
+          --include-classname=.*Tests
